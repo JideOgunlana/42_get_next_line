@@ -6,7 +6,7 @@
 /*   By: bogunlan <bogunlan@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 17:36:10 by bogunlan          #+#    #+#             */
-/*   Updated: 2022/06/02 20:00:53 by bogunlan         ###   ########.fr       */
+/*   Updated: 2022/06/02 22:14:00 by bogunlan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,11 @@ char	*check_stash(int fd, char *stash[], char *str, char *temp_str)
 
 	stash[fd] = ft_read(fd, str, temp_str, stash[fd]);
     if (!stash[fd] || ft_strlen(stash[fd]) < 1)
+	{
+		free(stash[fd]);
+		stash[fd] = NULL;
 		return (NULL);
+	}
 	if (ft_strchr(stash[fd], '\n'))
 	{
 		split_string = ft_split(stash[fd], '\n');
