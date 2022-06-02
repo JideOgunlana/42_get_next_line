@@ -6,7 +6,7 @@
 /*   By: bogunlan <bogunlan@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 17:36:10 by bogunlan          #+#    #+#             */
-/*   Updated: 2022/06/01 20:47:57 by bogunlan         ###   ########.fr       */
+/*   Updated: 2022/06/02 20:00:53 by bogunlan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ char    *ft_read(int fd, char *str, char *temp_str, char *stash)
 // 	{
 //         return (NULL);
 // 	}
+
 // 	if (ft_strchr(stash, '\n'))
 // 	{
 // 		split_string = ft_split(stash, '\n');
@@ -107,38 +108,22 @@ char    *ft_read(int fd, char *str, char *temp_str, char *stash)
 // 			result = "\n";
 // 		else
 // 			result = split_string[0];
+// 		stash = NULL;
 // 		free(stash);
 // 		stash = split_string[1];
 // 		free(split_string);
-// 		return (result);
 // 	}
-// 	return (NULL);
+// 	return (result);
 // }
 
-
-char    *get_next_line(int fd)
+char	*check_stash(int fd, char *stash[], char *str, char *temp_str)
 {
-    char            *str;
-    static char     *stash[256];
-    char            **split_string;
-    char            *temp_str;
-    char            *result;
+	char	**split_string;
+	char	*result;
 
-    temp_str = NULL;
-    if (fd < 0 || fd > 255 || BUFFER_SIZE <= 0)
-        return NULL;
-    str = malloc((BUFFER_SIZE + 1) * sizeof(char));
-    if (!str)
-	{
-        return NULL;
-	}
-    stash[fd] = ft_read(fd, str, temp_str, stash[fd]);
-	// if(!stash[fd] || ft_strchr(stash[fd], '\n'))
-	// 	return (check_stash(stash[fd]));
-    if (!stash[fd])
-	{
-        return (NULL);
-	}
+	stash[fd] = ft_read(fd, str, temp_str, stash[fd]);
+    if (!stash[fd] || ft_strlen(stash[fd]) < 1)
+		return (NULL);
 	if (ft_strchr(stash[fd], '\n'))
 	{
 		split_string = ft_split(stash[fd], '\n');
@@ -151,46 +136,36 @@ char    *get_next_line(int fd)
 		free(split_string);
 		return (result);
 	}
-	if (ft_strlen(stash[fd]) < 1)
-	{
-		free(stash[fd]);
-		stash[fd] = NULL; 
-		return (NULL);
-	}
+	// if (ft_strlen(stash[fd]) < 1)
+	// {
+	// 	free(stash[fd]);
+	// 	stash[fd] = NULL; 
+	// 	return (NULL);
+	// }
 	result = stash[fd];
 	stash[fd] = NULL;
-    return (result);
+	return (result);
 }
 
+char    *get_next_line(int fd)
+{
+    char            *str;
+    static char     *stash[256];
+    char            **split_string;
+    char            *temp_str;
+	char			*result;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    temp_str = NULL;
+    if (fd < 0 || fd > 255 || BUFFER_SIZE <= 0)
+        return NULL;
+    str = malloc((BUFFER_SIZE + 1) * sizeof(char));
+    if (!str)
+	{
+		return NULL;
+	}
+	result = check_stash(fd, &stash[fd], str, temp_str);
+	return result;
+}
 
 
 // void	check(void)
@@ -198,24 +173,24 @@ char    *get_next_line(int fd)
 // 	system("leaks a.out");
 // }
 
-// int main(void)
-// {
-// 	int		fd1;
-// 	// int		fd2;
-// 	// asdf
+int main(void)
+{
+	int		fd1;
+	int		fd2;
+	// asdf
 
-// 	atexit(check);
-// 	fd1 = open("text_1", O_RDONLY);
-// 	// fd2 = open("text2", O_RDONLY);
-// 	printf(":%s:",get_next_line(fd1));
-// 	// printf(":%s:\n",get_next_line(fd2));
-// 	printf(":%s:",get_next_line(fd1));
-// 	printf(":%s:",get_next_line(fd1));
-// 	printf(":%s:",get_next_line(fd1));
-// 	printf(":%s:",get_next_line(fd1));
-// 	printf(":%s:",get_next_line(fd1));
-// 	printf(":%s:\n",get_next_line(fd1));
-// 	// printf(":%s:\n",get_next_line(fd1));
-// 	// printf(":%s:\n",get_next_line(fd2));
-// 	return (99);
-// }
+	// atexit(check);
+	fd1 = open("text_1", O_RDONLY);
+	fd2 = open("text_2", O_RDONLY);
+	printf(":%s:",get_next_line(fd1));
+	printf(":%s:",get_next_line(fd2));
+	printf(":%s:",get_next_line(fd1));
+	printf(":%s:",get_next_line(fd1));
+	printf(":%s:",get_next_line(fd1));
+	printf(":%s:",get_next_line(fd1));
+	printf(":%s:",get_next_line(fd1));
+	printf(":%s:\n",get_next_line(fd1));
+	printf(":%s:\n",get_next_line(fd1));
+	printf(":%s:\n",get_next_line(fd2));
+	return (99);
+}

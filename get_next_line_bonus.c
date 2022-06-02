@@ -6,11 +6,11 @@
 /*   By: bogunlan <bogunlan@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 20:08:50 by bogunlan          #+#    #+#             */
-/*   Updated: 2022/06/01 20:11:14 by bogunlan         ###   ########.fr       */
+/*   Updated: 2022/06/02 18:51:46 by bogunlan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 #include <stdio.h>
 #include <string.h>
 
